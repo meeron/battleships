@@ -1,5 +1,6 @@
 ﻿namespace Battleships.Game.Domain
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -35,14 +36,39 @@
                 return null;
             }
 
-            //if (_ships.Any(s => s.Shape.Overlap(ship.Shape)))
-            //{
-            //    return null;
-            //}
+            if (_ships.Any(s => s.Shape.Overlap(ship.Shape)))
+            {
+                return null;
+            }
 
             _ships.Add(ship);
 
             return ship;
+        }
+
+        public Ship PlaceShip<TShip>()
+            where TShip : Ship, new()
+        {
+            var random = new Random();
+            Ship newShip = null;
+            var count = 0;
+
+            while (newShip == null)
+            {
+                count++;
+                if (count >= 100)
+                {
+                    return null;
+                }
+
+                var row = (char)random.Next(Start.Row, End.Row + 1);
+                var col = (byte)random.Next(Start.Col, End.Col + 1);
+                var direction = (ShipDirection)random.Next((int)ShipDirection.Horizontal, (int)ShipDirection.Vertical + 1);
+
+                newShip = PlaceShip<TShip>(new Coordinate(row, col), direction);
+            }
+
+            return newShip;
         }
 
         private static Coordinate CreateEnd(int sideSize) =>

@@ -1,7 +1,7 @@
 ﻿namespace Battleships.Game.Tests.Domain
 {
-    using System;
     using Battleships.Game.Domain;
+    using Battleships.Game.Domain.Ships;
     using FluentAssertions;
     using Xunit;
 
@@ -49,13 +49,39 @@
             ocean.Contains(ship.Shape).Should().BeTrue();
         }
 
+        [Fact]
+        public void PlaceShip_TwoShipsOverlapEachOther_ShouldReturnNull()
+        {
+            // Arrange
+            var ocean = new Ocean(4, 2);
+            ocean.PlaceShip<TestShip>(new Coordinate('A', 1), ShipDirection.Horizontal);
+
+            // Act
+            var newShip = ocean.PlaceShip<TestShip>(new Coordinate('A', 1), ShipDirection.Vertical);
+
+            // Assert
+            newShip.Should().BeNull();
+        }
+
+        [Fact]
+        public void PlaceShip_AtRandomPosition()
+        {
+            // Arrange
+            var ocean = new Ocean(10, 4);
+
+            // Act
+            var ship1 = ocean.PlaceShip<Destroyer>();
+            var ship2 = ocean.PlaceShip<Destroyer>();
+            var ship3 = ocean.PlaceShip<Battleship>();
+
+            // Assert
+            ship1.Should().NotBeNull();
+            ship2.Should().NotBeNull();
+            ship3.Should().NotBeNull();
+        }
+
         public class TestShip : Ship
         {
-            public TestShip()
-                : base()
-            {
-            }
-
             protected override int HitsToSink => 1;
 
             protected override int Size => 2;

@@ -64,6 +64,20 @@
             result.Should().BeTrue();
         }
 
+        [Fact]
+        public void OverlapOtherShape()
+        {
+            // Arrange
+            var shape = new TestShape('D', 1, 'D', 4);
+            var otherShape = new TestShape('B', 3, 'D', 3);
+
+            // Act
+            var result = shape.Overlap(otherShape);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
         private class TestShape : Shape
         {
             public TestShape(Coordinate start, Coordinate end)

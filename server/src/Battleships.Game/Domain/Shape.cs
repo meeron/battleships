@@ -44,7 +44,19 @@
 
         public bool Overlap(Shape otherShape)
         {
-            throw new NotImplementedException();
+            // TODO: Find more efficient solution
+            for (byte col = Start.Col; col <= End.Col; col++)
+            {
+                for (char row = Start.Row; row <= End.Row; row++)
+                {
+                    if (otherShape.Contains(new Coordinate(row, col)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }
