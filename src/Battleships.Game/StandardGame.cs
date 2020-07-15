@@ -9,7 +9,7 @@
         private const int MaxShipsCapacity = 5;
 
         public StandardGame()
-            : base(OceanSideSize, MaxShipsCapacity)
+            : base(new Ocean(OceanSideSize, MaxShipsCapacity))
         {
         }
 

@@ -2,17 +2,18 @@
 {
     using System;
     using System.Collections.Generic;
+    using Battleships.Game.Interfaces;
 
     public abstract class GameBase
     {
         private readonly Dictionary<Coordinate, ShootResult> _shoots;
 
-        private readonly Ocean _ocean;
+        private readonly IOcean _ocean;
 
-        protected GameBase(int oceanSideSize, int maxShipsCapacity)
+        protected GameBase(IOcean ocean)
         {
             Id = Guid.NewGuid();
-            _ocean = new Ocean(oceanSideSize, maxShipsCapacity);
+            _ocean = ocean;
             _shoots = new Dictionary<Coordinate, ShootResult>();
         }
 
@@ -39,7 +40,7 @@
                 ship.Hit();
 
                 _shoots[coordinate].IsHit = true;
-                _shoots[coordinate].SankedShip = ship.IsSanked ? ship.GetType().Name : string.Empty;
+                _shoots[coordinate].SankedShip = ship.IsSanked ? ship.Type : string.Empty;
             }
 
             return _shoots[coordinate];

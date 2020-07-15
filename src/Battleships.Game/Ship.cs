@@ -13,6 +13,8 @@
 
         public ShipShape Shape { get; private set; }
 
+        public virtual string Type => GetType().Name;
+
         protected abstract int HitsToSink { get; }
 
         protected abstract int Size { get; }
