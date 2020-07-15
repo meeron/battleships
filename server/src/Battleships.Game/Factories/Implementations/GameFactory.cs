@@ -9,7 +9,7 @@
     {
         public IGame Create(string mode)
         {
-            var gameType = Assembly.GetExecutingAssembly().ExportedTypes
+            var gameType = Assembly.GetExecutingAssembly().DefinedTypes
                 .SingleOrDefault(t => t.Name == $"{mode}Game" && t.BaseType == typeof(GameBase));
 
             if (gameType == null)

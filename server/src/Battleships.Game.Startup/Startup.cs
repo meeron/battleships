@@ -10,7 +10,7 @@
 
     public static class Startup
     {
-        public static void AddGame(this IServiceCollection services, bool isDevelopment)
+        public static IServiceCollection AddGame(this IServiceCollection services, bool isDevelopment)
         {
             services.AddLogging(config =>
             {
@@ -26,6 +26,8 @@
             services.AddSingleton<IGameStore, GameStore>();
 
             services.AddMediatR(Assembly.GetAssembly(typeof(GameFactory)));
+
+            return services;
         }
     }
 }

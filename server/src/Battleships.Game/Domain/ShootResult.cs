@@ -1,9 +1,9 @@
 ﻿namespace Battleships.Game.Domain
 {
-    public enum ShootResult
+    public class ShootResult
     {
-        Hit,
-        Miss,
-        ShipSanked,
+        public bool IsHit { get; set; }
+
+        public string SankedShip { get; set; }
     }
 }

@@ -34,6 +34,8 @@
 
                 var shootResult = game.Shoot(new Coordinate(request.Row, request.Col));
 
+                await _gameStore.Save(game);
+
                 return new ShootResultView
                 {
                     Result = shootResult,

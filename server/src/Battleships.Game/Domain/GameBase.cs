@@ -31,15 +31,16 @@
                 return _shoots[coordinate];
             }
 
+            _shoots.Add(coordinate, new ShootResult());
+
             var ship = _ocean.FindShip(coordinate);
-            if (ship == null)
+            if (ship != null)
             {
-                return ShootResult.Miss;
+                ship.Hit();
+
+                _shoots[coordinate].IsHit = true;
+                _shoots[coordinate].SankedShip = ship.IsSanked ? ship.GetType().Name : string.Empty;
             }
-
-            ship.Hit();
-
-            _shoots.Add(coordinate, ship.IsSanked ? ShootResult.ShipSanked : ShootResult.Hit);
 
             return _shoots[coordinate];
         }

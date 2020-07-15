@@ -26,5 +26,19 @@
             // Assert
             ex.Message.Should().Be("Invalid column number");
         }
+
+        [Theory]
+        [InlineData("a5", true)]
+        [InlineData("B12", true)]
+        [InlineData("1A", false)]
+        [InlineData("some text", false)]
+        public void TryParse(string text, bool expectedResult)
+        {
+            // Act
+            var result = Coordinate.TryParse(text, out _);
+
+            // Assert
+            result.Should().Be(expectedResult);
+        }
     }
 }
