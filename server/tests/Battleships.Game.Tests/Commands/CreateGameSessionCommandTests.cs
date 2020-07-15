@@ -40,15 +40,13 @@
                 GameMode = mode,
             };
 
-            var ex = new NotSupportedException("Test");
-
-            _mockGameFactory.Create(mode).Throws(ex);
+            _mockGameFactory.Create(mode).Returns((IGame)null);
 
             // Act
             var result = await Assert.ThrowsAsync<NotSupportedException>(() => _handler.Handle(cmd, CancellationToken.None));
 
             // Arrange
-            result.Should().Be(ex);
+            result.Message.Should().Be($"{mode} game is not supported");
 
             await _mockGameStore.DidNotReceive().Save(Arg.Any<GameBase>());
         }
@@ -63,7 +61,8 @@
             {
                 GameMode = mode,
             };
-            var game = new TestGame();
+            var game = Substitute.For<IGame>();
+            game.Mode.Returns(mode);
 
             _mockGameFactory.Create(mode).Returns(game);
 
@@ -74,14 +73,7 @@
             result.Mode.Should().Be(mode);
 
             await _mockGameStore.Received(1).Save(game);
-        }
-
-        public class TestGame : GameBase
-        {
-            public TestGame()
-                : base()
-            {
-            }
+            game.Received(1).PlaceShips();
         }
     }
 }

@@ -4,6 +4,6 @@
 
     public interface IGameFactory
     {
-        GameBase Create(string mode);
+        IGame Create(string mode);
     }
 }

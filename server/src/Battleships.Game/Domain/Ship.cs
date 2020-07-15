@@ -9,7 +9,7 @@
             _hits = 0;
         }
 
-        public bool IsSanked => HitsToSink == _hits;
+        public bool IsSanked => _hits >= HitsToSink;
 
         public ShipShape Shape { get; private set; }
 

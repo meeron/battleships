@@ -1,5 +1,10 @@
 ﻿namespace Battleships.Game.Startup
 {
+    using System.Reflection;
+    using Battleships.Game.Factories;
+    using Battleships.Game.Factories.Implementations;
+    using Battleships.Presistance;
+    using MediatR;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
@@ -16,6 +21,11 @@
                     config.AddConsole();
                 }
             });
+
+            services.AddSingleton<IGameFactory, GameFactory>();
+            services.AddSingleton<IGameStore, GameStore>();
+
+            services.AddMediatR(Assembly.GetAssembly(typeof(GameFactory)));
         }
     }
 }

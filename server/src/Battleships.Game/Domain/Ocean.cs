@@ -21,6 +21,8 @@
 
         public int ShipsCount => _ships.Count;
 
+        public bool AllShipsSanked => _ships.All(s => s.IsSanked);
+
         public Ship PlaceShip<TShip>(Coordinate start, ShipDirection direction)
             where TShip : Ship, new()
         {
@@ -70,6 +72,8 @@
 
             return newShip;
         }
+
+        public Ship FindShip(Coordinate coordinate) => _ships.SingleOrDefault(s => s.Shape.Contains(coordinate));
 
         private static Coordinate CreateEnd(int sideSize) =>
             new Coordinate((char)(DefaultStart.Row + sideSize - 1), (byte)(DefaultStart.Col + sideSize - 1));

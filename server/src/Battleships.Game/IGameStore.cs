@@ -6,8 +6,8 @@
 
     public interface IGameStore
     {
-        Task Save(GameBase game);
+        Task Save(IGame game);
 
-        Task<GameBase> Get(Guid id);
+        Task<IGame> Get(Guid id);
     }
 }

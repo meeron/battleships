@@ -1,5 +1,6 @@
 ﻿namespace Battleships.Game.Commands
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using Battleships.Game.Factories;
@@ -25,6 +26,12 @@
             public async Task<GameSessionView> Handle(CreateGameSessionCommand request, CancellationToken cancellationToken)
             {
                 var game = _gameFactory.Create(request.GameMode);
+                if (game == null)
+                {
+                    throw new NotSupportedException($"{request.GameMode} game is not supported");
+                }
+
+                game.PlaceShips();
 
                 await _gameStore.Save(game);
 
