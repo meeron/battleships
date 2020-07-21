@@ -1,6 +1,5 @@
 ﻿namespace Battleships.Game
 {
-    using System;
     using System.Collections.Generic;
     using Battleships.Game.Interfaces;
 
@@ -12,14 +11,9 @@
 
         protected GameBase(IOcean ocean)
         {
-            Id = Guid.NewGuid();
             _ocean = ocean;
             _shoots = new Dictionary<Coordinate, ShootResult>();
         }
-
-        public Guid Id { get; }
-
-        public string Mode => GetType().Name.Replace("Game", string.Empty);
 
         public bool IsWon => _ocean.AllShipsSanked;
 
@@ -46,7 +40,7 @@
             return _shoots[coordinate];
         }
 
-        protected void PlaceShips<TShip>()
+        protected void PlaceShip<TShip>()
             where TShip : Ship, new()
         {
             _ocean.PlaceShip<TShip>();

@@ -21,20 +21,6 @@
         }
 
         [Theory]
-        [InlineData('A', 1, 'D', 4, 16)]
-        [InlineData('A', 1, 'J', 10, 100)]
-        [InlineData('B', 3, 'C', 3, 2)]
-        [InlineData('D', 1, 'D', 3, 3)]
-        public void AreaIsProperlyCalculated(char startRow, byte startCol, char endRow, byte endCol, int expectedArea)
-        {
-            // Act
-            var shape = new TestShape(startRow, startCol, endRow, endCol);
-
-            // Assert
-            shape.Area.Should().Be(expectedArea);
-        }
-
-        [Theory]
         [InlineData('D', 5, false)]
         [InlineData('C', 2, true)]
         public void ContainsCoordinate(char row, byte col, bool contains)
@@ -85,7 +71,7 @@
             }
 
             public TestShape(char startRow, byte startCol, char endRow, byte endCol)
-                : base(startRow, startCol, endRow, endCol)
+                : base(new Coordinate(startRow, startCol), new Coordinate(endRow, endCol))
             {
             }
         }

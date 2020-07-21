@@ -4,11 +4,6 @@
     {
         private int _hits;
 
-        protected Ship()
-        {
-            _hits = 0;
-        }
-
         public bool IsSanked => _hits >= HitsToSink;
 
         public ShipShape Shape { get; private set; }

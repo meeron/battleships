@@ -15,9 +15,9 @@
 
         public override void PlaceShips()
         {
-            PlaceShips<Destroyer>();
-            PlaceShips<Destroyer>();
-            PlaceShips<Battleship>();
+            PlaceShip<Destroyer>();
+            PlaceShip<Destroyer>();
+            PlaceShip<Battleship>();
         }
     }
 }
