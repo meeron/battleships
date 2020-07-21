@@ -31,6 +31,8 @@
         [InlineData("B12", true)]
         [InlineData("1A", false)]
         [InlineData("some text", false)]
+        [InlineData("78", false)]
+        [InlineData("-3", false)]
         public void TryParse(string text, bool expectedResult)
         {
             // Act

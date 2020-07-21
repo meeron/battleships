@@ -16,6 +16,11 @@
                 throw new NotSupportedException("Invalid column number");
             }
 
+            if (!char.IsLetter(row))
+            {
+                throw new NotSupportedException("Row can be identified only by letters");
+            }
+
             Row = row;
             Col = col;
         }
@@ -34,6 +39,10 @@
             }
 
             var row = char.ToUpper(text[0]);
+            if (!char.IsLetter(row))
+            {
+                return false;
+            }
 
             if (!byte.TryParse(text.Substring(1, text.Length - 1), out var col))
             {
