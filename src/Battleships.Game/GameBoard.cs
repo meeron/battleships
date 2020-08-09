@@ -1,15 +1,14 @@
 ﻿namespace Battleships.Game
 {
     using System.Collections.Generic;
-    using Battleships.Game.Interfaces;
 
-    public abstract class GameBase
+    public class GameBoard
     {
         private readonly Dictionary<Coordinate, ShootResult> _shoots;
 
-        protected readonly IOcean _ocean;
+        private readonly Ocean _ocean;
 
-        protected GameBase(IOcean ocean)
+        public GameBoard(Ocean ocean)
         {
             _ocean = ocean;
             _shoots = new Dictionary<Coordinate, ShootResult>();
@@ -17,7 +16,15 @@
 
         public bool IsWon => _ocean.AllShipsSanked;
 
-        public abstract void PlaceShips();
+        public static GameBoard CreateStandardGame()
+        {
+            var ocean = new Ocean(10, 5);
+            ocean.PlaceShip(Ship.CreateDestroyer());
+            ocean.PlaceShip(Ship.CreateDestroyer());
+            ocean.PlaceShip(Ship.CreateBattletship());
+
+            return new GameBoard(ocean);
+        }
 
         public ShootResult Shoot(Coordinate coordinate)
         {

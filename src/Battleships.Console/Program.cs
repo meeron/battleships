@@ -7,8 +7,7 @@
     {
         public static void Main(string[] args)
         {
-            var game = new StandardGame();
-            game.PlaceShips();
+            var game = GameBoard.CreateStandardGame();
 
             Console.WriteLine("Standard game started");
 

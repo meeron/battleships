@@ -3,9 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Battleships.Game.Interfaces;
 
-    public class Ocean : IOcean
+    public class Ocean
     {
         private static readonly Coordinate DefaultStart = new Coordinate('A', 1);
 

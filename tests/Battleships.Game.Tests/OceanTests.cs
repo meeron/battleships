@@ -6,7 +6,7 @@
     public class OceanTests
     {
         [Fact]
-        public void PlaceShip_WithOutsideCoordinates_ShouldReturnNull()
+        public void PlaceShip_WithOutsideCoordinates_ShouldBeFalse()
         {
             // Arrange
             var start = new Coordinate('B', 15);
@@ -16,11 +16,11 @@
             var result = ocean.PlaceShip(Ship.CreateDestroyer(), start, ShipDirection.Horizontal);
 
             // Assert
-            result.Should().BeTrue();
+            result.Should().BeFalse();
         }
 
         [Fact]
-        public void PlaceShip_MaximumCapacityReached_ShouldReturnNull()
+        public void PlaceShip_MaximumCapacityReached_ShouldBeFalse()
         {
             // Arrange
             var ocean = new Ocean(4, 1);
@@ -30,7 +30,7 @@
             var result = ocean.PlaceShip(Ship.CreateDestroyer(), new Coordinate('B', 2), ShipDirection.Horizontal);
 
             // Assert
-            result.Should().BeTrue();
+            result.Should().BeFalse();
         }
 
         [Fact]
