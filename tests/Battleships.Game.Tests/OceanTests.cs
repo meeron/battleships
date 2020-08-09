@@ -1,6 +1,5 @@
 ﻿namespace Battleships.Game.Test
 {
-    using Battleships.Game.Ships;
     using FluentAssertions;
     using Xunit;
 
@@ -14,10 +13,10 @@
             var ocean = new Ocean(4, 1);
 
             // Act
-            var newShip = ocean.PlaceShip<TestShip>(start, ShipDirection.Horizontal);
+            var result = ocean.PlaceShip(Ship.CreateDestroyer(), start, ShipDirection.Horizontal);
 
             // Assert
-            newShip.Should().BeNull();
+            result.Should().BeTrue();
         }
 
         [Fact]
@@ -25,27 +24,28 @@
         {
             // Arrange
             var ocean = new Ocean(4, 1);
-            ocean.PlaceShip<TestShip>(new Coordinate('A', 1), ShipDirection.Horizontal);
+            ocean.PlaceShip(Ship.CreateDestroyer(), new Coordinate('A', 1), ShipDirection.Horizontal);
 
             // Act
-            var newShip = ocean.PlaceShip<TestShip>(new Coordinate('B', 2), ShipDirection.Horizontal);
+            var result = ocean.PlaceShip(Ship.CreateDestroyer(), new Coordinate('B', 2), ShipDirection.Horizontal);
 
             // Assert
-            newShip.Should().BeNull();
+            result.Should().BeTrue();
         }
 
         [Fact]
         public void PlaceShip_NewShipShouldBeInTheOcean()
         {
             // Arrange
+            var ship = Ship.CreateDestroyer();
             var ocean = new Ocean(4, 1);
 
             // Act
-            var ship = ocean.PlaceShip<TestShip>(new Coordinate('A', 1), ShipDirection.Horizontal);
+            ocean.PlaceShip(ship, new Coordinate('A', 1), ShipDirection.Horizontal);
 
             // Assert
             ocean.ShipsCount.Should().Be(1);
-            ocean.Contains(ship.Shape).Should().BeTrue();
+            ocean.Shape.Contains(ship.Shape).Should().BeTrue();
         }
 
         [Fact]
@@ -53,13 +53,13 @@
         {
             // Arrange
             var ocean = new Ocean(4, 2);
-            ocean.PlaceShip<TestShip>(new Coordinate('A', 1), ShipDirection.Horizontal);
+            ocean.PlaceShip(Ship.CreateDestroyer(), new Coordinate('A', 1), ShipDirection.Horizontal);
 
             // Act
-            var newShip = ocean.PlaceShip<TestShip>(new Coordinate('A', 1), ShipDirection.Vertical);
+            var result = ocean.PlaceShip(Ship.CreateDestroyer(), new Coordinate('A', 1), ShipDirection.Vertical);
 
             // Assert
-            newShip.Should().BeNull();
+            result.Should().BeFalse();
         }
 
         [Fact]
@@ -69,14 +69,14 @@
             var ocean = new Ocean(10, 4);
 
             // Act
-            var ship1 = ocean.PlaceShip<Destroyer>();
-            var ship2 = ocean.PlaceShip<Destroyer>();
-            var ship3 = ocean.PlaceShip<Battleship>();
+            var result1 = ocean.PlaceShip(Ship.CreateDestroyer());
+            var result2 = ocean.PlaceShip(Ship.CreateDestroyer());
+            var result3 = ocean.PlaceShip(Ship.CreateDestroyer());
 
             // Assert
-            ship1.Should().NotBeNull();
-            ship2.Should().NotBeNull();
-            ship3.Should().NotBeNull();
+            result1.Should().BeTrue();
+            result2.Should().BeTrue();
+            result3.Should().BeTrue();
         }
 
         [Fact]
@@ -84,22 +84,16 @@
         {
             // Arrange
             var ocean = new Ocean(4, 2);
-            var ship = ocean.PlaceShip<TestShip>(new Coordinate('A', 1), ShipDirection.Horizontal);
+            var ship = Ship.CreateDestroyer();
+            ocean.PlaceShip(ship, new Coordinate('A', 1), ShipDirection.Horizontal);
 
             // Act
             var result1 = ocean.FindShip(ship.Shape.End);
-            var result2 = ocean.FindShip(ocean.End);
+            var result2 = ocean.FindShip(ocean.Shape.End);
 
             // Assert
             result1.Should().Be(ship);
             result2.Should().BeNull();
-        }
-
-        public class TestShip : Ship
-        {
-            protected override int HitsToSink => 1;
-
-            protected override int Size => 2;
         }
     }
 }

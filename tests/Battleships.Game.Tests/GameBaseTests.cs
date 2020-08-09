@@ -11,7 +11,7 @@
         public void Shoot_ShipFoundAtCoordinatesAndSanked_ShouldReturnHit()
         {
             // Arrange
-            const string shipType = "Typhoon class";
+            const string shipName = "Typhoon class";
 
             var mockOcean = Substitute.For<IOcean>();
             var mockShip = Substitute.For<Ship>();
@@ -20,14 +20,14 @@
             var coordinate = new Coordinate('A', 1);
 
             mockOcean.FindShip(coordinate).Returns(mockShip);
-            mockShip.Type.Returns(shipType);
+            mockShip.Name.Returns(shipName);
 
             // Act
             var result = game.Shoot(coordinate);
 
             // Assert
             result.IsHit.Should().BeTrue();
-            result.SankedShip.Should().Be(shipType);
+            result.SankedShip.Should().Be(shipName);
         }
 
         [Fact]

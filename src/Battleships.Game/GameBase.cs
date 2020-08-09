@@ -7,7 +7,7 @@
     {
         private readonly Dictionary<Coordinate, ShootResult> _shoots;
 
-        private readonly IOcean _ocean;
+        protected readonly IOcean _ocean;
 
         protected GameBase(IOcean ocean)
         {
@@ -34,16 +34,10 @@
                 ship.Hit();
 
                 _shoots[coordinate].IsHit = true;
-                _shoots[coordinate].SankedShip = ship.IsSanked ? ship.Type : string.Empty;
+                _shoots[coordinate].SankedShip = ship.IsSanked ? ship.Name : string.Empty;
             }
 
             return _shoots[coordinate];
-        }
-
-        protected void PlaceShip<TShip>()
-            where TShip : Ship, new()
-        {
-            _ocean.PlaceShip<TShip>();
         }
     }
 }

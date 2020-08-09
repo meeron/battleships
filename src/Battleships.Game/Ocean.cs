@@ -5,7 +5,7 @@
     using System.Linq;
     using Battleships.Game.Interfaces;
 
-    public class Ocean : Shape, IOcean
+    public class Ocean : IOcean
     {
         private static readonly Coordinate DefaultStart = new Coordinate('A', 1);
 
@@ -14,69 +14,66 @@
         private readonly int _maxCapacity;
 
         public Ocean(int sideSize, int maxCapacity)
-            : base(DefaultStart, CreateEnd(sideSize))
         {
+            var end = new Coordinate((char)(DefaultStart.Row + sideSize - 1), (byte)(DefaultStart.Col + sideSize - 1));
+
             _maxCapacity = maxCapacity;
             _ships = new List<Ship>();
+            Shape = new Shape(DefaultStart, end);
         }
+
+        public Shape Shape { get; }
 
         public int ShipsCount => _ships.Count;
 
         public bool AllShipsSanked => _ships.All(s => s.IsSanked);
 
-        public Ship PlaceShip<TShip>(Coordinate start, ShipDirection direction)
-            where TShip : Ship, new()
+        public bool PlaceShip(Ship ship, Coordinate start, ShipDirection direction)
         {
             if (ShipsCount == _maxCapacity)
             {
-                return null;
+                return false;
             }
 
-            var ship = new TShip();
-
-            if (!Contains(ship.SetShape(start, direction)))
+            if (!Shape.Contains(ship.SetShape(start, direction)))
             {
-                return null;
+                return false;
             }
 
             if (_ships.Any(s => s.Shape.Overlap(ship.Shape)))
             {
-                return null;
+                return false;
             }
 
             _ships.Add(ship);
 
-            return ship;
+            return true;
         }
 
-        public Ship PlaceShip<TShip>()
-            where TShip : Ship, new()
+        public bool PlaceShip(Ship ship)
         {
             var random = new Random();
-            Ship newShip = null;
             var count = 0;
+            var isPlaced = false;
 
-            while (newShip == null)
+            while (isPlaced == false)
             {
                 count++;
                 if (count >= 100)
                 {
-                    return null;
+                    return false;
                 }
 
-                var row = (char)random.Next(Start.Row, End.Row + 1);
-                var col = (byte)random.Next(Start.Col, End.Col + 1);
+                var row = (char)random.Next(Shape.Start.Row, Shape.End.Row + 1);
+                var col = (byte)random.Next(Shape.Start.Col, Shape.End.Col + 1);
                 var direction = (ShipDirection)random.Next((int)ShipDirection.Horizontal, (int)ShipDirection.Vertical + 1);
 
-                newShip = PlaceShip<TShip>(new Coordinate(row, col), direction);
+                isPlaced = PlaceShip(ship, new Coordinate(row, col), direction);
             }
 
-            return newShip;
+            return isPlaced;
         }
 
         public Ship FindShip(Coordinate coordinate) => _ships.SingleOrDefault(s => s.Shape.Contains(coordinate));
-
-        private static Coordinate CreateEnd(int sideSize) =>
-            new Coordinate((char)(DefaultStart.Row + sideSize - 1), (byte)(DefaultStart.Col + sideSize - 1));
     }
 }

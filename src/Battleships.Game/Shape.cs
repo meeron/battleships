@@ -2,9 +2,9 @@
 {
     using System;
 
-    public abstract class Shape
+    public class Shape
     {
-        protected Shape(Coordinate start, Coordinate end)
+        public Shape(Coordinate start, Coordinate end)
         {
             if (start.Row > end.Row || start.Col > end.Col)
             {

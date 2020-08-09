@@ -6,10 +6,8 @@
 
         Ship FindShip(Coordinate coordinate);
 
-        Ship PlaceShip<TShip>(Coordinate start, ShipDirection direction)
-             where TShip : Ship, new();
+        bool PlaceShip(Ship ship, Coordinate start, ShipDirection direction);
 
-        Ship PlaceShip<TShip>()
-             where TShip : Ship, new();
+        bool PlaceShip(Ship ship);
     }
 }

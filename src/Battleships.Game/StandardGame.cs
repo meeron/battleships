@@ -1,7 +1,5 @@
 ﻿namespace Battleships.Game
 {
-    using Battleships.Game.Ships;
-
     public class StandardGame : GameBase
     {
         private const int OceanSideSize = 10;
@@ -15,9 +13,9 @@
 
         public override void PlaceShips()
         {
-            PlaceShip<Destroyer>();
-            PlaceShip<Destroyer>();
-            PlaceShip<Battleship>();
+            _ocean.PlaceShip(Ship.CreateDestroyer());
+            _ocean.PlaceShip(Ship.CreateDestroyer());
+            _ocean.PlaceShip(Ship.CreateBattletship());
         }
     }
 }
